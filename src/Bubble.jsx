@@ -1,9 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function Bubble({ title, options, style }) {
+export default function Bubble({ title, type, options = [], style }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
-  const bubbleRef = useRef(null);
+  const [input, setInput] = useState("");
+  const ref = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const toggle = (item) => {
     setSelected(prev =>
@@ -13,23 +24,20 @@ export default function Bubble({ title, options, style }) {
     );
   };
 
-  // ⬇️ KATTINTÁS FIGYELÉS
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (bubbleRef.current && !bubbleRef.current.contains(e.target)) {
-        setOpen(false);
+  const addFreeTag = (e) => {
+    if (e.key === "Enter" && input.trim()) {
+      if (!selected.includes(input.trim())) {
+        setSelected([...selected, input.trim()]);
       }
+      setInput("");
     }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  };
 
   return (
-    <div className="bubble" style={style} ref={bubbleRef}>
+    <div className="bubble" style={style} ref={ref}>
       <h3 onClick={() => setOpen(o => !o)}>{title}</h3>
 
-      {open && (
+      {open && type === "select" && (
         <div className="dropdown">
           {options.map(opt => (
             <label key={opt}>
@@ -42,6 +50,16 @@ export default function Bubble({ title, options, style }) {
             </label>
           ))}
         </div>
+      )}
+
+      {open && type === "free" && (
+        <input
+          className="free-input"
+          placeholder="Írj be egy kifejezést és Enter…"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={addFreeTag}
+        />
       )}
 
       <div className="tags">
