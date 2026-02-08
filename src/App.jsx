@@ -1,9 +1,11 @@
+import { useState } from "react";
 import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
 import logo from "./assets/logo.png";
 import "./style.css";
 
 export default function App() {
+  const [userName, setUserName] = useState("");
   const size = 1200;
   const center = size / 2;
   const bubbleDiameter = 300;
@@ -13,6 +15,17 @@ export default function App() {
 
   return (
     <div className="canvas" style={{ width: size, height: size }}>
+      <div className="name-box">
+        <input
+          className="name-input"
+          type="text"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Név…"
+          aria-label="Név"
+        />
+      </div>
+
       {/* LOGO */}
       <div
         className="center"
