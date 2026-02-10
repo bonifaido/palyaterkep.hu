@@ -21,6 +21,17 @@ export default function App() {
 
   return (
     <div className="canvas" style={{ width: size, height: size }}>
+      <div className="print-box">
+        <button
+          className="print-button"
+          type="button"
+          onClick={() => window.print()}
+          aria-label="Nyomtatás / Mentés PDF-be"
+        >
+          Nyomtatás / PDF
+        </button>
+      </div>
+
       <div className="name-box">
         <input
           className="name-input"
