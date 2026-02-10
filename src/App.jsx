@@ -2,9 +2,11 @@ import { useState } from "react";
 import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
 import logo from "./assets/logo.png";
+import Intro from "./Intro";
 import "./style.css";
 
 export default function App() {
+  const [started, setStarted] = useState(false);
   const [userName, setUserName] = useState("");
   const size = 1200;
   const center = size / 2;
@@ -12,6 +14,10 @@ export default function App() {
   const edgePadding = 20;
   const radius = center - bubbleDiameter / 2 - edgePadding;
   const startAngle = -Math.PI / 2;
+
+  if (!started) {
+    return <Intro onStart={() => setStarted(true)} />;
+  }
 
   return (
     <div className="canvas" style={{ width: size, height: size }}>
