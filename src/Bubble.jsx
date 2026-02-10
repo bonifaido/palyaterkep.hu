@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function Bubble({ title, type, options = [], style }) {
+export default function Bubble({ title, type, options = [], style, tooltip }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
   const [input, setInput] = useState("");
@@ -34,7 +34,7 @@ export default function Bubble({ title, type, options = [], style }) {
   };
 
   return (
-    <div className="bubble" style={style} ref={ref}>
+    <div className="bubble" style={style} ref={ref} title={tooltip}>
       <h3 onClick={() => setOpen(o => !o)}>{title}</h3>
 
       {open && type === "select" && (

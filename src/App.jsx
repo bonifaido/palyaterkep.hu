@@ -53,6 +53,7 @@ export default function App() {
             title={b.title}
             type={b.type}
             options={b.options}
+            tooltip={b.tooltip}
             style={{
               left: x,
               top: y,

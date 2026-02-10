@@ -2,6 +2,7 @@ export const BUBBLES = [
     {
         title: "Érdeklődés",
         type: "select",
+        tooltip: "Milyen tevékenységek, témák és feladatok keltik fel leginkább az érdeklődésedet, és mivel foglalkozol szívesen?",
         options: [
             "a társadalmi körülmények javítása érdekében végzett munka",
             "absztrakt és alkotó munka",
@@ -68,6 +69,7 @@ export const BUBBLES = [
     {
         title: "Képességek",
         type: "select",
+        tooltip: "Miben érzed magad ügyesnek, mi megy könnyen, és milyen képességeidre szoktál támaszkodni a mindennapokban?",
         options: [
             "általános tanulási képesség",
             "emlékezőképesség",
@@ -87,10 +89,11 @@ export const BUBBLES = [
             "térelképzelés",
             "ujjügyesség"
         ]
-    },
+    },  
     {
         title: "Értékek",
         type: "select",
+        tooltip: "Mi fontos számodra a munkával kapcsolatban, milyen szempontoknak kell mindenképpen teljesülniük ahhoz, hogy jól érezd magad benne?",
         options: [
             "altruizmus",
             "anyagiak",
@@ -118,6 +121,7 @@ export const BUBBLES = [
     {
         title: "Munkamód",
         type: "select",
+        tooltip: "Hogyan szeretsz dolgozni, milyen környezetben, milyen módon tudsz a leghatékonyabban működni?",
         options: [
             "adminisztrációhoz és üzleti élethez kapcsolódó feladatokban részt venni",
             "állatokkal foglalkozni",
@@ -163,14 +167,17 @@ export const BUBBLES = [
     },
     {
         title: "Pályák és tapasztalatok",
-        type: "free"
+        type: "free",
+        tooltip: "Milyen pályák és munkák érdekelnek, melyekkel találkoztál már, milyen tapasztalatod van velük kapcsolatban (akár csak hallottál róluk, láttad, kipróbáltad)?"
     },
     {
         title: "Erőforrások és lehetőségek",
-        type: "free"
+        type: "free",
+        tooltip: "Milyen erőforrásokra tudsz jelenleg támaszkodni, és milyen lehetőségek állnak nyitva előtted a pályával kapcsolatban?"
     },
     {
         title: "Egyéb fontos szempontok",
-        type: "free"
+        type: "free",
+        tooltip: "Van-e bármi más, ami fontos rólad, amit érdemes megjeleníteni?"
     }
 ];
