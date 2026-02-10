@@ -25,12 +25,28 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
   };
 
   const addFreeTag = (e) => {
-    if (e.key === "Enter" && input.trim()) {
-      if (!selected.includes(input.trim())) {
-        setSelected([...selected, input.trim()]);
-      }
-      setInput("");
+    if (e.key !== "Enter") return;
+    const value = input.trim();
+    if (!value) return;
+
+    const existingOption = options.find(
+      (opt) => opt.trim().toLowerCase() === value.toLowerCase()
+    );
+
+    if (existingOption) {
+      setSelected((prev) =>
+        prev.includes(existingOption) ? prev : [...prev, existingOption]
+      );
+    } else {
+      setSelected((prev) => {
+        const alreadySelected = prev.some(
+          (v) => v.trim().toLowerCase() === value.toLowerCase()
+        );
+        return alreadySelected ? prev : [...prev, value];
+      });
     }
+
+    setInput("");
   };
 
   return (
@@ -38,18 +54,28 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
       <h3 onClick={() => setOpen(o => !o)}>{title}</h3>
 
       {open && type === "select" && (
-        <div className="dropdown">
-          {options.map(opt => (
-            <label key={opt}>
-              <input
-                type="checkbox"
-                checked={selected.includes(opt)}
-                onChange={() => toggle(opt)}
-              />
-              {opt}
-            </label>
-          ))}
-        </div>
+        <>
+          <div className="dropdown">
+            {options.map(opt => (
+              <label key={opt}>
+                <input
+                  type="checkbox"
+                  checked={selected.includes(opt)}
+                  onChange={() => toggle(opt)}
+                />
+                {opt}
+              </label>
+            ))}
+          </div>
+
+          <input
+            className="free-input"
+            placeholder="Egyéb (ha nincs a listában) – írd be és Enter…"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={addFreeTag}
+          />
+        </>
       )}
 
       {open && type === "free" && (
