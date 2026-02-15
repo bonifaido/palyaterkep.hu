@@ -198,6 +198,13 @@ body {
   pointer-events: none;
 }
 
+.copyright--fixed {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  z-index: 30;
+}
+
 .logo {
   width: 440px;     /* ⬅️ 2x */
   height: 440px;    /* ⬅️ 2x */

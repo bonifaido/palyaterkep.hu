@@ -48,6 +48,10 @@ export default function Intro({ onStart }) {
           </button>
         </div>
       </div>
+
+      <div className="copyright copyright--fixed" aria-label="Szerzői jogi nyilatkozat">
+        © Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn.
+      </div>
     </div>
   );
 }
