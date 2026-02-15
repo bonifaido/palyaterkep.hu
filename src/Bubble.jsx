@@ -90,7 +90,16 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
 
       <div className="tags">
         {selected.map(item => (
-          <span key={item} className="tag">{item}</span>
+          <button
+            key={item}
+            type="button"
+            className="tag"
+            onClick={() => toggle(item)}
+            aria-label={`Törlés: ${item}`}
+            title="Kattints a törléshez"
+          >
+            {item}
+          </button>
         ))}
       </div>
     </div>
