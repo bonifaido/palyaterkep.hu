@@ -82,6 +82,10 @@ export default function App() {
             />
           );
         })}
+
+        <div className="copyright" aria-label="Szerzői jogi nyilatkozat">
+          © Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn.
+        </div>
       </div>
     </div>
   );
