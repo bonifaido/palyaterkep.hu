@@ -74,7 +74,16 @@ body {
   border-radius: 999px;
 }
 
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+
 @media print {
+  :root {
+    --print-scale: 0.58;
+  }
+
   html, body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -82,12 +91,23 @@ body {
     background-size: cover !important;
     background-position: center !important;
     background-attachment: scroll !important;
-    display: block;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   #root {
-    display: block;
-    min-height: auto;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .print-box {
@@ -98,9 +118,33 @@ body {
     display: none !important;
   }
 
-  .canvas {
-    margin: 0 auto;
+  .canvas-print {
+    width: calc(1200px * var(--print-scale)) !important;
+    height: calc(1200px * var(--print-scale)) !important;
     page-break-inside: avoid;
+  }
+
+  .canvas {
+    margin: 0 !important;
+    transform: scale(var(--print-scale)) !important;
+    transform-origin: top left !important;
+    page-break-inside: avoid;
+  }
+
+  @supports (zoom: 1) {
+    .canvas {
+      zoom: var(--print-scale) !important;
+      transform: none !important;
+    }
+
+    .canvas-print {
+      width: auto !important;
+      height: auto !important;
+    }
+  }
+
+  .bubble:hover {
+    transform: translate(-50%, -50%) !important;
   }
 }
 
