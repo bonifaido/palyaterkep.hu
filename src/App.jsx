@@ -13,6 +13,8 @@ export default function App() {
   const bubbleDiameter = 300;
   const edgePadding = 20;
   const radius = center - bubbleDiameter / 2 - edgePadding;
+  const radiusX = radius;
+  const radiusY = Math.round(radius * 0.78);
   const startAngle = -Math.PI / 2;
 
   if (!started) {
@@ -62,8 +64,8 @@ export default function App() {
         {/* BUBORÉKOK */}
         {BUBBLES.map((b, index) => {
           const rad = startAngle + (index * 2 * Math.PI) / BUBBLES.length;
-          const x = center + radius * Math.cos(rad);
-          const y = center + radius * Math.sin(rad);
+          const x = center + radiusX * Math.cos(rad);
+          const y = center + radiusY * Math.sin(rad);
 
           return (
             <Bubble
