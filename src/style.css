@@ -21,7 +21,7 @@ body {
 }
 
 .name-box {
-  position: absolute;
+  position: fixed;
   top: 22px;
   left: 22px;
   z-index: 10;
@@ -112,6 +112,10 @@ body {
 
   .print-box {
     display: none !important;
+  }
+
+  .name-box {
+    position: absolute !important;
   }
 
   .intro {
@@ -223,9 +227,9 @@ body {
 }
 
 .bubble {
-  width: 300px;
-  min-height: 220px;
-  padding: 22px;
+  width: 280px;
+  min-height: 210px;
+  padding: 20px;
   border-radius: 50%;
 
   /* MÉG ÁTTETSZŐBB ÜVEG */

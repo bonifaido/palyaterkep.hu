@@ -10,11 +10,11 @@ export default function App() {
   const [userName, setUserName] = useState("");
   const size = 1200;
   const center = size / 2;
-  const bubbleDiameter = 300;
-  const edgePadding = 20;
+  const bubbleDiameter = 280;
+  const edgePadding = 6;
   const radius = center - bubbleDiameter / 2 - edgePadding;
   const radiusX = radius;
-  const radiusY = Math.round(radius * 0.78);
+  const radiusY = Math.round(radius * 0.62);
   const startAngle = -Math.PI / 2;
 
   if (!started) {
@@ -67,6 +67,18 @@ export default function App() {
           const x = center + radiusX * Math.cos(rad);
           const y = center + radiusY * Math.sin(rad);
 
+          const shouldNudge =
+            b.title === "Képességek" || b.title === "Egyéb fontos szempontok";
+
+          const nudgeUp = 18;
+          const nudgeIn = 22;
+          const dx = x - center;
+          const dy = y - center;
+          const len = Math.hypot(dx, dy) || 1;
+
+          const adjustedX = shouldNudge ? x - (dx / len) * nudgeIn : x;
+          const adjustedY = shouldNudge ? y - (dy / len) * nudgeIn - nudgeUp : y;
+
           return (
             <Bubble
               key={b.title}
@@ -75,8 +87,8 @@ export default function App() {
               options={b.options}
               tooltip={b.tooltip}
               style={{
-                left: x,
-                top: y,
+                left: adjustedX,
+                top: adjustedY,
                 transform: "translate(-50%, -50%)"
               }}
             />
