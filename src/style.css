@@ -81,7 +81,7 @@ body {
 
 @media print {
   :root {
-    --print-scale: 0.58;
+    --print-scale: 0.52;
   }
 
   html, body {
@@ -123,8 +123,8 @@ body {
   }
 
   .canvas-print {
-    width: calc(1320px * var(--print-scale)) !important;
-    height: calc(1200px * var(--print-scale)) !important;
+    width: calc(1990px * var(--print-scale)) !important;
+    height: calc(1220px * var(--print-scale)) !important;
     page-break-inside: avoid;
   }
 
@@ -133,18 +133,6 @@ body {
     transform: scale(var(--print-scale)) !important;
     transform-origin: top left !important;
     page-break-inside: avoid;
-  }
-
-  @supports (zoom: 1) {
-    .canvas {
-      zoom: var(--print-scale) !important;
-      transform: none !important;
-    }
-
-    .canvas-print {
-      width: auto !important;
-      height: auto !important;
-    }
   }
 
   .bubble:hover {
@@ -166,9 +154,10 @@ body {
 }
 
 .canvas {
-  width: 1200px;
-  height: 1200px;
+  width: 1990px;
+  height: 1220px;
   position: relative;
+  transform-origin: top left;
 }
 
 .center {
@@ -227,10 +216,16 @@ body {
 }
 
 .bubble {
-  width: 320px;
-  min-height: 210px;
+  width: 400px;
+  height: 400px;
+  min-height: 0;
+  box-sizing: border-box;
   padding: 20px;
   border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   /* MÉG ÁTTETSZŐBB ÜVEG */
   background: rgba(255, 255, 255, 0.15);  /* ⬅️ lejjebb */
@@ -246,6 +241,26 @@ body {
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
+.bubble-content {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: scale(var(--content-scale, 1));
+  transform-origin: center;
+}
+
+.bubble--open {
+  z-index: 20;
+  justify-content: flex-start;
+}
+
+.bubble--open .bubble-content {
+  justify-content: flex-start;
+  transform-origin: top center;
+}
+
 .bubble:hover {
   transform: translate(-50%, -50%) scale(1.04);
   box-shadow:
@@ -254,6 +269,9 @@ body {
 }
 
 .bubble h3 {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 0 4px;
   text-align: center;
   cursor: pointer;
   color: #1f2933;
@@ -261,9 +279,20 @@ body {
 }
 
 .dropdown {
+  width: 100%;
+  max-width: 220px;
   max-height: 180px;
+  box-sizing: border-box;
   overflow-y: auto;
-  margin-top: 10px;
+  margin: 0;
+}
+
+.bubble--open .dropdown {
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 .dropdown label {
@@ -273,7 +302,12 @@ body {
 }
 
 .tags {
-  margin-top: 8px;
+  width: 100%;
+  max-width: 220px;
+  max-height: 132px;
+  box-sizing: border-box;
+  margin-top: 3px;
+  overflow-y: auto;
 }
 
 .tag {
@@ -300,9 +334,10 @@ body {
 
 .free-input {
   width: 100%;
+  max-width: 220px;
   box-sizing: border-box;
-  margin-top: 10px;
-  padding: 8px 12px;
+  margin-top: 4px;
+  padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,.4);
   background: rgba(255,255,255,.35);
@@ -388,4 +423,191 @@ body {
 .intro-button:focus-visible {
   outline: 2px solid rgba(31, 41, 51, 0.6);
   outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  body {
+    display: block;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-attachment: scroll;
+  }
+
+  #root {
+    display: block;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .intro {
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .intro-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .intro-title {
+    font-size: 28px;
+  }
+
+  .intro-button {
+    min-height: 48px;
+  }
+
+  .copyright--fixed {
+    position: static;
+    align-self: flex-start;
+    margin: 0 0 8px;
+  }
+
+  .canvas-print {
+    width: 100% !important;
+    height: auto;
+    height: auto !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .canvas {
+    display: flex;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin: 0;
+    padding: 16px;
+  }
+
+  .print-box {
+    position: static;
+    order: 0;
+    align-self: flex-end;
+    padding: 6px 10px;
+  }
+
+  .print-button {
+    min-height: 36px;
+  }
+
+  .name-box {
+    position: static;
+    order: 1;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    min-height: 48px;
+    border-radius: 12px;
+  }
+
+  .name-input {
+    min-height: 24px;
+    font-size: 16px;
+  }
+
+  .center {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    order: 2;
+    align-self: center;
+    transform: none !important;
+  }
+
+  .logo {
+    width: min(42vw, 180px);
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .bubble {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    order: 3;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    box-sizing: border-box;
+    padding: 16px;
+    border-radius: 12px;
+    transform: none !important;
+  }
+
+  .bubble:hover {
+    transform: none;
+  }
+
+  .bubble h3 {
+    margin: 2px 0 8px;
+  }
+
+  .bubble-content {
+    width: 100%;
+    transform: none;
+  }
+
+  .bubble h3,
+  .dropdown,
+  .free-input,
+  .tags {
+    width: 100%;
+    max-width: none;
+  }
+
+  .dropdown {
+    max-height: min(40vh, 320px);
+  }
+
+  .tags {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .dropdown label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 15px;
+  }
+
+  .dropdown input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    margin: 0;
+    accent-color: #2563eb;
+  }
+
+  .free-input {
+    min-height: 44px;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .tag {
+    min-height: 36px;
+  }
+
+  .canvas > .copyright {
+    position: static;
+    order: 4;
+    max-width: none;
+    border-radius: 10px;
+  }
 }

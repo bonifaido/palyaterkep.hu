@@ -1,32 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
 import logo from "./assets/logo.png";
 import Intro from "./Intro";
 import "./style.css";
 
+const CANVAS_WIDTH = 1990;
+const CANVAS_HEIGHT = 1220;
+const BUBBLE_DIAMETER = 400;
+const CENTER_X = CANVAS_WIDTH / 2;
+const CENTER_Y = CANVAS_HEIGHT / 2;
+const ORBIT_RADIUS_X = CENTER_X - BUBBLE_DIAMETER / 2 - 8;
+const ORBIT_RADIUS_Y = CENTER_Y - BUBBLE_DIAMETER / 2 - 8;
+const START_ANGLE = -Math.PI / 2;
+
+function getEllipseAngles(count, radiusX, radiusY, startAngle) {
+  const segments = 2048;
+  const step = (2 * Math.PI) / segments;
+  const lengths = [0];
+
+  for (let index = 0; index < segments; index += 1) {
+    const angle = startAngle + index * step;
+    const speed = Math.hypot(radiusX * Math.sin(angle), radiusY * Math.cos(angle));
+    lengths.push(lengths[index] + speed * step);
+  }
+
+  const perimeter = lengths[segments];
+
+  return Array.from({ length: count }, (_, index) => {
+    const targetLength = (index * perimeter) / count;
+    let segment = 1;
+
+    while (lengths[segment] < targetLength) {
+      segment += 1;
+    }
+
+    const segmentLength = lengths[segment] - lengths[segment - 1];
+    const fraction = (targetLength - lengths[segment - 1]) / segmentLength;
+    return startAngle + (segment - 1 + fraction) * step;
+  });
+}
+
+function getCanvasScale() {
+  if (window.innerWidth <= 900) {
+    return 1;
+  }
+
+  return Math.min(
+    1,
+    (window.innerWidth - 32) / CANVAS_WIDTH,
+    (window.innerHeight - 32) / CANVAS_HEIGHT
+  );
+}
+
+const BUBBLE_ANGLES = getEllipseAngles(
+  BUBBLES.length,
+  ORBIT_RADIUS_X,
+  ORBIT_RADIUS_Y,
+  START_ANGLE
+);
+
 export default function App() {
   const [started, setStarted] = useState(false);
   const [userName, setUserName] = useState("");
-  const width = 1320;
-  const height = 1200;
-  const centerX = width / 2;
-  const centerY = height / 2;
-  const bubbleDiameter = 320;
-  const edgePadding = 6;
-  const baseRadiusX = centerX - bubbleDiameter / 2 - edgePadding;
-  const baseRadiusY = centerY - bubbleDiameter / 2 - edgePadding;
-  const radiusX = baseRadiusX;
-  const radiusY = Math.round(baseRadiusY * 0.62);
-  const startAngle = -Math.PI / 2;
+  const [canvasScale, setCanvasScale] = useState(getCanvasScale);
+
+  useEffect(() => {
+    const handleResize = () => setCanvasScale(getCanvasScale());
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (!started) {
     return <Intro onStart={() => setStarted(true)} />;
   }
 
   return (
-    <div className="canvas-print">
-      <div className="canvas" style={{ width, height }}>
+    <div
+      className="canvas-print"
+      style={{
+        width: CANVAS_WIDTH * canvasScale,
+        height: CANVAS_HEIGHT * canvasScale
+      }}
+    >
+      <div
+        className="canvas"
+        style={{
+          width: CANVAS_WIDTH,
+          height: CANVAS_HEIGHT,
+          transform: `scale(${canvasScale})`,
+          "--content-scale": 1 / canvasScale
+        }}
+      >
         <div className="print-box">
           <button
             className="print-button"
@@ -54,8 +119,8 @@ export default function App() {
           className="center"
           style={{
             position: "absolute",
-            left: centerX,
-            top: centerY,
+            left: CENTER_X,
+            top: CENTER_Y,
             transform: "translate(-50%, -50%)"
           }}
         >
@@ -66,21 +131,9 @@ export default function App() {
 
         {/* BUBORÉKOK */}
         {BUBBLES.map((b, index) => {
-          const rad = startAngle + (index * 2 * Math.PI) / BUBBLES.length;
-          const x = centerX + radiusX * Math.cos(rad);
-          const y = centerY + radiusY * Math.sin(rad);
-
-          const shouldNudge =
-            b.title === "Képességek" || b.title === "Egyéb fontos szempontok";
-
-          const nudgeUp = 18;
-          const nudgeIn = 8;
-          const dx = x - centerX;
-          const dy = y - centerY;
-          const len = Math.hypot(dx, dy) || 1;
-
-          const adjustedX = shouldNudge ? x - (dx / len) * nudgeIn : x;
-          const adjustedY = shouldNudge ? y - (dy / len) * nudgeIn - nudgeUp : y;
+          const angle = BUBBLE_ANGLES[index];
+          const x = CENTER_X + ORBIT_RADIUS_X * Math.cos(angle);
+          const y = CENTER_Y + ORBIT_RADIUS_Y * Math.sin(angle);
 
           return (
             <Bubble
@@ -90,8 +143,8 @@ export default function App() {
               options={b.options}
               tooltip={b.tooltip}
               style={{
-                left: adjustedX,
-                top: adjustedY,
+                left: x,
+                top: y,
                 transform: "translate(-50%, -50%)"
               }}
             />

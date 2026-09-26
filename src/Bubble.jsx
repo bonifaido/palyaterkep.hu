@@ -50,57 +50,64 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
   };
 
   return (
-    <div className="bubble" style={style} ref={ref} title={tooltip}>
-      <h3 onClick={() => setOpen(o => !o)}>{title}</h3>
+    <div
+      className={`bubble${open ? " bubble--open" : ""}`}
+      style={style}
+      ref={ref}
+      title={tooltip}
+    >
+      <div className="bubble-content">
+        <h3 onClick={() => setOpen(o => !o)}>{title}</h3>
 
-      {open && type === "select" && (
-        <>
-          <div className="dropdown">
-            {options.map(opt => (
-              <label key={opt}>
-                <input
-                  type="checkbox"
-                  checked={selected.includes(opt)}
-                  onChange={() => toggle(opt)}
-                />
-                {opt}
-              </label>
-            ))}
-          </div>
+        {open && type === "select" && (
+          <>
+            <div className="dropdown">
+              {options.map(opt => (
+                <label key={opt}>
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(opt)}
+                    onChange={() => toggle(opt)}
+                  />
+                  {opt}
+                </label>
+              ))}
+            </div>
 
+            <input
+              className="free-input"
+              placeholder="Egyéb (ha nincs a listában) – írd be és Enter…"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={addFreeTag}
+            />
+          </>
+        )}
+
+        {open && type === "free" && (
           <input
             className="free-input"
-            placeholder="Egyéb (ha nincs a listában) – írd be és Enter…"
+            placeholder="Írj be egy kifejezést és Enter…"
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={addFreeTag}
           />
-        </>
-      )}
+        )}
 
-      {open && type === "free" && (
-        <input
-          className="free-input"
-          placeholder="Írj be egy kifejezést és Enter…"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={addFreeTag}
-        />
-      )}
-
-      <div className="tags">
-        {selected.map(item => (
-          <button
-            key={item}
-            type="button"
-            className="tag"
-            onClick={() => toggle(item)}
-            aria-label={`Törlés: ${item}`}
-            title="Kattints a törléshez"
-          >
-            {item}
-          </button>
-        ))}
+        <div className="tags">
+          {selected.map(item => (
+            <button
+              key={item}
+              type="button"
+              className="tag"
+              onClick={() => toggle(item)}
+              aria-label={`Törlés: ${item}`}
+              title="Kattints a törléshez"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
