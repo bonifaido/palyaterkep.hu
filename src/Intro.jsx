@@ -3,13 +3,15 @@ export default function Intro({ onStart }) {
     <div className="intro">
       <div className="intro-card" role="region" aria-label="PályaTérkép bevezető">
         <h1 className="intro-title">PályaTérkép</h1>
-        <p className="intro-subtitle"><strong>Vizuális önismereti térkép az életpálya tervezéséhez</strong></p>
+        <p className="intro-subtitle"><h2>Vizuális önismereti térkép az életpálya tervezéséhez</h2></p>
 
         <p>
-          A PályaTérkép egy ingyenesen használható, böngészőben elérhető pályaorientációs felület.
+          A PályaTérkép egy ingyenesen használható, böngészőben elérhető digitális pályaorientációs eszköz.
+        </p>
+        <p>
+          Az életpálya-tervezés során sokféle fontos információ és felismerés gyűlik össze önmagunkról, tapasztalatainkról és lehetőségeinkről. A PályaTérkép abban segít, hogy mindezeket egy helyen, átlátható és vizuális formában lásd. A térképet lépésről lépésre te töltheted meg a rád jellemző elemekkel és saját gondolataiddal. Ahogy haladsz, fokozatosan kirajzolódik a saját PályaTérképed, amely megmutatja:
         </p>
 
-        <p>A kitöltés során egy személyes térképet készíthetsz magadról, amely megmutatja:</p>
         <ul className="intro-list">
           <li>mi érdekel,</li>
           <li>miben vagy jó,</li>
@@ -30,13 +32,23 @@ export default function Intro({ onStart }) {
         </p>
 
         <h2 className="intro-h2">Hogyan használhatod?</h2>
-        <p>
-          Haladj végig a PályaTérkép számodra releváns területein, és írd be azokat a jellemzőket, felismeréseket és tapasztalatokat, amelyek igazak rád.
-          Nem szükséges minden mezőt kitöltened, elsősorban arra koncentrálj, amit fontosnak érzel az életpályád tervezése szempontjából.
-        </p>
-        <p>
-          Ha egy már hozzáadott elemet törölni szeretnél, kattints arra az elemre, amelyet el szeretnél távolítani.
-        </p>
+        <ul className="intro-list">
+          <li>
+            A PályaTérkép kitöltését az oldal alján található <strong>Kezdés</strong> gombbal indíthatod el.
+          </li>
+          <li>
+            Haladj végig a PályaTérkép számodra releváns területein, és írd be azokat a jellemzőket, felismeréseket és tapasztalatokat, amelyek igazak rád.
+          </li>
+          <li>
+            Egyes területeken előre megadott lehetőségek közül választhatsz, és saját választ is hozzáadhatsz, más részeken pedig teljesen szabadon fogalmazhatod meg a gondolataidat.
+          </li>
+          <li>
+            Ha egy már hozzáadott elemet törölni szeretnél, kattints arra az elemre, amelyet el szeretnél távolítani.
+          </li>
+          <li>
+            Nem szükséges minden mezőt kitöltened, elsősorban arra koncentrálj, amit fontosnak érzel az életpályád tervezése szempontjából.
+          </li>
+        </ul>
         <p>
           Fontos: ha kilépsz az oldalról, a kitöltött térkép nem marad meg automatikusan. Ezért a munka befejezése előtt mentsd el PDF-formátumban vagy nyomtasd ki.
 
