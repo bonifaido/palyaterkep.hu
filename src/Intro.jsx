@@ -6,15 +6,7 @@ export default function Intro({ onStart }) {
         <p className="intro-subtitle"><strong>Vizuális önismereti térkép az életpálya tervezéséhez</strong></p>
 
         <p>
-          A PályaTérkép egy ingyenesen használható, böngészőben elérhető felület,
-          amely segít egyben látni mindazt, amit eddig önmagadról összegyűjtöttél.
-        </p>
-
-        <p>
-          <strong><em>
-            A PályaTérkép elsősorban számítógépre készült. A teljes élményhez asztali
-            gépet vagy laptopot javaslunk, mobilon a használat korlátozott lehet.
-          </em></strong>
+          A PályaTérkép egy ingyenesen használható, böngészőben elérhető pályaorientációs felület.
         </p>
 
         <p>A kitöltés során egy személyes térképet készíthetsz magadról, amely megmutatja:</p>
@@ -31,22 +23,34 @@ export default function Intro({ onStart }) {
         <h2 className="intro-h2">Kinek szól?</h2>
         <p>
           Önálló kitöltőknek, akik szeretnék rendszerezni a gondolataikat önmagukról.
+        </p>
+        <p>
           Tanácsadóknak és tanácskérőknek, akik egy vizuális eszközt keresnek a közös
           gondolkodás összegzéséhez.
         </p>
 
         <h2 className="intro-h2">Hogyan használhatod?</h2>
         <p>
-          A PályaTérképet önállóan is elkezdheted kitölteni. Segít átlátni a már meglévő
-          felismeréseidet, és láthatóvá teszi, hol vannak még kérdések.
+          Haladj végig a PályaTérkép számodra releváns területein, és írd be azokat a jellemzőket, felismeréseket és tapasztalatokat, amelyek igazak rád.
+          Nem szükséges minden mezőt kitöltened, elsősorban arra koncentrálj, amit fontosnak érzel az életpályád tervezése szempontjából.
         </p>
         <p>
-          Tanácsadási helyzetben a tanácsadóval együtt kitöltve a térkép vizuálisan is
-          összegzi a megbeszélt felismeréseket.
+          Ha egy már hozzáadott elemet törölni szeretnél, kattints arra az elemre, amelyet el szeretnél távolítani.
         </p>
         <p>
-          Nem szükséges minden területet kitöltened. A kitöltés végén elmentheted a saját
-          térképedet.
+          Fontos: ha kilépsz az oldalról, a kitöltött térkép nem marad meg automatikusan. Ezért a munka befejezése előtt mentsd el PDF-formátumban vagy nyomtasd ki.
+
+          Kattints a Nyomtatás/PDF gombra.
+
+          A megjelenő nyomtatási beállításoknál mindig válaszd a fekvő tájolást.
+
+          Ezután a térképet PDF-ként elmentheted vagy kinyomtathatod.
+        </p>
+        <p>
+          <strong><em>
+            A PályaTérkép elsősorban számítógépre készült. A teljes élményhez asztali
+            gépet vagy laptopot javaslunk, mobilon a használat korlátozott lehet.
+          </em></strong>
         </p>
 
         <div className="intro-actions">
