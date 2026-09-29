@@ -6,6 +6,11 @@ export default function Intro({ onStart }) {
         <p className="intro-subtitle">Vizuális önismereti térkép az életpálya tervezéséhez</p>
 
         <p>
+          A PályaTérkép elsősorban számítógépre készült. A teljes élményhez asztali
+          gépet vagy laptopot javaslunk; mobilon a használat korlátozott lehet.
+        </p>
+
+        <p>
           A PályaTérkép egy ingyenesen használható, böngészőben elérhető felület,
           amely segít egyben látni mindazt, amit eddig önmagadról összegyűjtöttél.
         </p>
