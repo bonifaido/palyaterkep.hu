@@ -7,7 +7,7 @@ import "./style.css";
 
 const CANVAS_WIDTH = 1990;
 const CANVAS_HEIGHT = 1220;
-const BUBBLE_DIAMETER = 400;
+const BUBBLE_DIAMETER = 440;
 const CENTER_X = CANVAS_WIDTH / 2;
 const CENTER_Y = CANVAS_HEIGHT / 2;
 const ORBIT_RADIUS_X = CENTER_X - BUBBLE_DIAMETER / 2 - 8;
@@ -101,6 +101,7 @@ export default function App() {
           >
             Nyomtatás / PDF
           </button>
+          <p className="print-hint">Nyomtatáskor válaszd a fekvő tájolást.</p>
         </div>
 
         <div className="name-box">

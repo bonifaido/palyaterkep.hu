@@ -3,16 +3,18 @@ export default function Intro({ onStart }) {
     <div className="intro">
       <div className="intro-card" role="region" aria-label="PályaTérkép bevezető">
         <h1 className="intro-title">PályaTérkép</h1>
-        <p className="intro-subtitle">Vizuális önismereti térkép az életpálya tervezéséhez</p>
-
-        <p>
-          A PályaTérkép elsősorban számítógépre készült. A teljes élményhez asztali
-          gépet vagy laptopot javaslunk; mobilon a használat korlátozott lehet.
-        </p>
+        <p className="intro-subtitle"><strong>Vizuális önismereti térkép az életpálya tervezéséhez</strong></p>
 
         <p>
           A PályaTérkép egy ingyenesen használható, böngészőben elérhető felület,
           amely segít egyben látni mindazt, amit eddig önmagadról összegyűjtöttél.
+        </p>
+
+        <p>
+          <strong><em>
+            A PályaTérkép elsősorban számítógépre készült. A teljes élményhez asztali
+            gépet vagy laptopot javaslunk, mobilon a használat korlátozott lehet.
+          </em></strong>
         </p>
 
         <p>A kitöltés során egy személyes térképet készíthetsz magadról, amely megmutatja:</p>
