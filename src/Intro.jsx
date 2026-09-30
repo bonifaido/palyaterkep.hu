@@ -50,13 +50,7 @@ export default function Intro({ onStart }) {
           </li>
         </ul>
         <p>
-          Fontos: ha kilépsz az oldalról, a kitöltött térkép nem marad meg automatikusan. Ezért a munka befejezése előtt mentsd el PDF-formátumban vagy nyomtasd ki.
-
-          Kattints a Nyomtatás/PDF gombra.
-
-          A megjelenő nyomtatási beállításoknál mindig válaszd a fekvő tájolást.
-
-          Ezután a térképet PDF-ként elmentheted vagy kinyomtathatod.
+          Fontos: ha kilépsz az oldalról, a kitöltött térkép adatai nem kerülnek automatikusan mentésre, ezért a munka befejezése előtt mentsd el PDF-formátumban vagy nyomtasd ki. Ehhez kattints a Nyomtatás/PDF gombra, majd a megjelenő nyomtatási beállításoknál válaszd a fekvő tájolást. Ezután a térképet PDF-ként elmentheted vagy közvetlenül kinyomtathatod.
         </p>
         <p>
           <strong><em>

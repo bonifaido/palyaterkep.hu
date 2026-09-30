@@ -98,10 +98,10 @@ export default function App() {
             type="button"
             onClick={() => window.print()}
             aria-label="Nyomtatás / Mentés PDF-be"
+            title="Nyomtatáskor válaszd a fekvő tájolást!"
           >
             Nyomtatás / PDF
           </button>
-          <p className="print-hint">Nyomtatáskor válaszd a fekvő tájolást.</p>
         </div>
 
         <div className="name-box">
