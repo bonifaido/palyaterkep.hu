@@ -116,12 +116,18 @@ body {
   }
 
   .canvas-print {
+    position: relative;
+    flex: none;
     width: calc(1990px * var(--print-scale)) !important;
     height: calc(1220px * var(--print-scale)) !important;
+    overflow: hidden;
     page-break-inside: avoid;
   }
 
   .canvas {
+    position: absolute !important;
+    top: 0;
+    left: 0;
     margin: 0 !important;
     transform: scale(var(--print-scale)) !important;
     transform-origin: top left !important;
