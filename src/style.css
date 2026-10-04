@@ -398,25 +398,35 @@ body {
 }
 
 .intro-actions {
-  margin-top: 18px;
+  margin-top: 24px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .intro-button {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #1f2933;
-  padding: 10px 16px;
+  border: none;
+  background: #3f7fb0;
+  color: #fff;
+  padding: 16px 48px;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(63, 127, 176, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .intro-button:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: #2f6a99;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(63, 127, 176, 0.55);
+}
+
+.intro-card p.intro-privacy {
+  margin-top: 28px;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.55;
 }
 
 .intro-button:focus-visible {

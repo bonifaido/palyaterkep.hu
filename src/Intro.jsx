@@ -37,6 +37,9 @@ export default function Intro({ onStart }) {
             A PályaTérkép kitöltését az oldal alján található <strong>Kezdés</strong> gombbal indíthatod el.
           </li>
           <li>
+            A név mezőbe megadhatod a nevedet vagy egy becenevet, de üresen is hagyhatod, az itt megadott adatot a rendszer nem menti.
+          </li>
+          <li>
             Haladj végig a PályaTérkép számodra releváns területein, és írd be azokat a jellemzőket, felismeréseket és tapasztalatokat, amelyek igazak rád.
           </li>
           <li>
@@ -64,6 +67,10 @@ export default function Intro({ onStart }) {
             Kezdés
           </button>
         </div>
+
+        <p className="intro-privacy">
+          <strong>Adatkezelés:</strong> A PályaTérképen megadott adatokat és válaszokat a rendszer nem menti és nem tárolja. Az oldal nem helyez el sütiket (cookie-kat) az eszközödön. A látogatottság méréséhez a Cloudflare süti nélküli, alapszintű látogatói statisztikáját (Cloudflare Web Analytics) használjuk, amely összesített forgalmi adatokat szolgáltat, és nem azonosít egyedi felhasználókat.
+        </p>
       </div>
 
       <div className="copyright copyright--fixed" aria-label="Szerzői jogi nyilatkozat">
