@@ -37,7 +37,7 @@ export default function Intro({ onStart }) {
             A PályaTérkép kitöltését az oldal alján található <strong>Kezdés</strong> gombbal indíthatod el.
           </li>
           <li>
-            A név mezőbe megadhatod a nevedet vagy egy becenevet, de üresen is hagyhatod, az itt megadott adatot a rendszer nem menti.
+            A név mezőbe megadhatod a nevedet vagy egy becenevet, de üresen is hagyhatod.
           </li>
           <li>
             Haladj végig a PályaTérkép számodra releváns területein, és írd be azokat a jellemzőket, felismeréseket és tapasztalatokat, amelyek igazak rád.
