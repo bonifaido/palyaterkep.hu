@@ -60,8 +60,8 @@ const BUBBLE_ANGLES = getEllipseAngles(
   START_ANGLE
 );
 
-export default function App() {
-  const [started, setStarted] = useState(false);
+export default function App({ startImmediately = false }) {
+  const [started, setStarted] = useState(startImmediately);
   const [userName, setUserName] = useState("");
   const [canvasScale, setCanvasScale] = useState(getCanvasScale);
 

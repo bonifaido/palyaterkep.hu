@@ -1,14 +1,153 @@
 <!doctype html>
-<html lang="en">
+<html lang="hu">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/landing.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>palyaterkep.hu</title>
+    <meta name="description" content="Rendszerezd az érdeklődésedet, képességeidet és munkával kapcsolatos értékeidet egy ingyenes, vizuális életpálya-tervező eszközzel." />
+    <meta name="theme-color" content="#f4f2ec" />
+    <link rel="canonical" href="https://palyaterkep.hu/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="hu_HU" />
+    <meta property="og:site_name" content="PályaTérkép" />
+    <meta property="og:title" content="PályaTérkép – Ingyenes pályaorientációs eszköz" />
+    <meta property="og:description" content="Vizuális önismereti eszköz az életpálya tervezéséhez, önálló kitöltőknek és tanácsadói beszélgetésekhez." />
+    <meta property="og:url" content="https://palyaterkep.hu/" />
+    <title>PályaTérkép – Ingyenes pályaorientációs eszköz</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PályaTérkép",
+        "url": "https://palyaterkep.hu/",
+        "description": "Ingyenes, böngészőben használható vizuális önismereti eszköz az életpálya tervezéséhez.",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "hu-HU",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "HUF"
+        },
+        "creator": {
+          "@type": "Person",
+          "name": "Krácser-Varga Adrienn"
+        }
+      }
+    </script>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+  <body class="marketing-page">
+    <a class="skip-link" href="#main">Ugrás a tartalomra</a>
+    <header class="site-header">
+      <a class="site-brand" href="/" aria-label="PályaTérkép, főoldal">PályaTérkép</a>
+      <nav aria-label="Fő navigáció">
+        <a href="/how-to-use.html">Használat</a>
+        <a href="/for-counselors.html">Tanácsadóknak</a>
+        <a class="nav-cta" href="/tool.html">Kitöltés</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero content-width">
+        <p class="eyebrow">Ingyenes, böngészőben használható pályaorientációs eszköz</p>
+        <h1>PályaTérkép</h1>
+        <p class="hero-lede">Vizuális önismereti térkép az életpálya tervezéséhez.</p>
+        <p class="hero-copy">Gyűjtsd egy helyre, mi érdekel, miben vagy jó, és milyen munkát szeretnél. A PályaTérkép segít áttekinthető formában rendszerezni a gondolataidat és a lehetőségeidet.</p>
+        <div class="hero-actions">
+          <a class="button-primary" href="/tool.html">Pályatérkép kitöltése <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="/how-to-use.html">Így működik</a>
+        </div>
+        <p class="hero-note">Ingyenes · Nem kell regisztrálni · A kitöltést a rendszer nem menti</p>
+      </section>
+
+      <section class="dimensions-band" aria-labelledby="dimensions-title">
+        <div class="content-width">
+          <p class="eyebrow">A saját szempontjaidból indul ki</p>
+          <h2 id="dimensions-title">Mit rendezhetsz el a térképen?</h2>
+          <ul class="dimension-list">
+            <li>Érdeklődés</li>
+            <li>Képességek</li>
+            <li>Munkaértékek</li>
+            <li>Munkamód</li>
+            <li>Pályák és tapasztalatok</li>
+            <li>Erőforrások és lehetőségek</li>
+            <li>Egyéb fontos szempontok</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="content-width text-section">
+        <div>
+          <p class="eyebrow">Önismeretből következő lépések</p>
+          <h2>Nem kész választ ad, hanem segít tisztábban látni</h2>
+        </div>
+        <div class="section-copy">
+          <p>A pályaválasztás és a munka világában hozott döntések sokféle szempontból állnak össze. A térképen egymás mellé kerülhetnek az érdeklődéseid, a számodra fontos munkakörülmények, a tapasztalataid és azok a lehetőségek, amelyekre jelenleg támaszkodhatsz.</p>
+          <p>Az eszköz gondolkodási és beszélgetési támpontokat ad. Nem teszt, nem állít fel diagnózist, és nem választ helyetted foglalkozást.</p>
+          <a class="text-link" href="/how-to-use.html">Részletes útmutató a kitöltéshez <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section class="audience-band">
+        <div class="content-width audience-grid">
+          <div>
+            <p class="eyebrow">Kinek lehet hasznos?</p>
+            <h2>Önálló tervezéshez és közös gondolkodáshoz</h2>
+          </div>
+          <div class="audience-item">
+            <h3>Ha a saját utadat tervezed</h3>
+            <p>Rendezd össze, amit magadról, a munkáról és a következő lehetőségekről gondolsz. A térképet a saját szavaiddal töltheted ki.</p>
+          </div>
+          <div class="audience-item">
+            <h3>Ha tanácsadóként dolgozol</h3>
+            <p>Használjátok vizuális összegzésként egy pályaorientációs beszélgetés során. A kitöltés menetéről és kereteiről <a href="/for-counselors.html">tanácsadóknak szóló oldalon</a> olvashatsz.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-width faq-section" aria-labelledby="faq-title">
+        <p class="eyebrow">Gyakori kérdések</p>
+        <h2 id="faq-title">A PályaTérképről röviden</h2>
+        <dl class="faq-list">
+          <div>
+            <dt>Ingyenes a PályaTérkép?</dt>
+            <dd>Igen. A böngészőben használható eszköz ingyenes, regisztráció nélkül.</dd>
+          </div>
+          <div>
+            <dt>Elmenti a rendszer a válaszaimat?</dt>
+            <dd>Nem. A kitöltött térkép adatait a rendszer nem menti. A munka végén nyomtathatsz vagy PDF-be mentheted a térképet.</dd>
+          </div>
+          <div>
+            <dt>Telefonon is használható?</dt>
+            <dd>Az eszköz elsősorban számítógépre készült. Mobilon a használat korlátozott lehet.</dd>
+          </div>
+          <div>
+            <dt>A térkép megmondja, milyen pályát válasszak?</dt>
+            <dd>Nem. Segít rendszerezni az önismereti szempontokat, de nem ad automatikus pályaajánlást vagy diagnózist.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="closing-band">
+        <div class="content-width closing-content">
+          <div>
+            <p class="eyebrow">Kezdd a saját szempontjaiddal</p>
+            <h2>Rajzold fel, ami most fontos neked</h2>
+          </div>
+          <a class="button-primary" href="/tool.html">Pályatérkép kitöltése <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer content-width">
+      <a class="site-brand" href="/">PályaTérkép</a>
+      <p>Készítette: Krácser-Varga Adrienn.</p>
+      <p><a href="/how-to-use.html">Használati útmutató</a> <a href="/for-counselors.html">Tanácsadóknak</a></p>
+      <p>© PályaTérkép · Minden jog fenntartva.</p>
+    </footer>
+
     <!-- Cloudflare Web Analytics -->
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "34dd6e598c4945a99d160f6f330014c8"}'></script>
     <!-- End Cloudflare Web Analytics -->

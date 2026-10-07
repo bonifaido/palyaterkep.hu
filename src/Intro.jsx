@@ -3,7 +3,7 @@ export default function Intro({ onStart }) {
     <div className="intro">
       <div className="intro-card" role="region" aria-label="PályaTérkép bevezető">
         <h1 className="intro-title">PályaTérkép</h1>
-        <p className="intro-subtitle"><h2>Vizuális önismereti térkép az életpálya tervezéséhez</h2></p>
+        <h2 className="intro-subtitle">Vizuális önismereti térkép az életpálya tervezéséhez</h2>
 
         <p>
           A PályaTérkép egy ingyenesen használható, böngészőben elérhető digitális pályaorientációs eszköz.
