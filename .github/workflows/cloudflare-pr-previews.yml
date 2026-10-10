@@ -37,6 +37,12 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Bootstrap route-disabled Preview host
+        run: npx --yes wrangler@4.149.0 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Create or update Cloudflare Preview
         id: deploy-preview
         run: |
@@ -46,7 +52,7 @@ jobs:
           preview_json="$(printf '%s\n' "$output" | sed -n '/^{/,$p')"
           preview_url="$(printf '%s\n' "$preview_json" | jq -r '.preview.urls[0] // empty')"
           if [[ -z "$preview_url" ]]; then
-            echo "::error::Cloudflare created the Preview but returned no URL. Enable Worker Preview URLs in Workers & Pages > palyaterkep-hu > Domains > Worker URL, then rerun this workflow."
+            echo "::error::Cloudflare created the Preview but returned no URL. Ensure the account has a workers.dev subdomain enabled, then rerun this workflow."
             exit 1
           fi
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"

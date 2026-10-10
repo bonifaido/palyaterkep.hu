@@ -9,7 +9,7 @@ Add these repository secrets in GitHub before the first preview deployment:
 - `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts.
 - `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID that owns the Worker.
 
-In Cloudflare, enable Preview under **Workers & Pages > palyaterkep-hu > Domains > Worker URL** once. The Wrangler config requests preview URLs, and the workflow reports a setup error if Cloudflare has not enabled them for the Worker yet.
+The first PR workflow creates a route-disabled Worker to host Cloudflare Previews and enables `workers.dev` Preview URLs. It does not attach a production route or replace GitHub Pages. Ensure the Cloudflare account has a `workers.dev` subdomain enabled; the workflow reports an actionable error if Cloudflare cannot return a Preview URL.
 
 Previews use Cloudflare's `workers.dev` URL and are public to anyone with the link. Cloudflare marks Worker Preview URLs `noindex`. Pull requests from forks are intentionally skipped because GitHub does not expose repository secrets to fork workflows.
 
