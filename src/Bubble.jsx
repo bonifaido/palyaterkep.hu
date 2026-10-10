@@ -1,75 +1,58 @@
-import { useState, useRef, useEffect } from "react";
-
-export default function Bubble({ title, type, options = [], style, tooltip }) {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState([]);
-  const [input, setInput] = useState("");
-  const ref = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const toggle = (item) => {
-    setSelected(prev =>
-      prev.includes(item)
-        ? prev.filter(i => i !== item)
-        : [...prev, item]
-    );
-  };
-
-  const addFreeTag = (e) => {
-    if (e.key !== "Enter") return;
-    const value = input.trim();
-    if (!value) return;
-
-    const existingOption = options.find(
-      (opt) => opt.trim().toLowerCase() === value.toLowerCase()
-    );
-
-    if (existingOption) {
-      setSelected((prev) =>
-        prev.includes(existingOption) ? prev : [...prev, existingOption]
-      );
-    } else {
-      setSelected((prev) => {
-        const alreadySelected = prev.some(
-          (v) => v.trim().toLowerCase() === value.toLowerCase()
-        );
-        return alreadySelected ? prev : [...prev, value];
-      });
-    }
-
-    setInput("");
+export default function Bubble({
+  title,
+  type,
+  options = [],
+  style,
+  tooltip,
+  selected = [],
+  input = "",
+  onInput,
+  onToggle,
+  onAdd,
+  onFocus,
+  titleButtonRef,
+  focused = false
+}) {
+  const handleKeyDown = (event) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    onAdd();
   };
 
   return (
     <div
-      className={`bubble${open ? " bubble--open" : ""}`}
+      className={`bubble${focused ? " bubble--focused" : ""}`}
       style={style}
-      ref={ref}
       title={tooltip}
     >
       <div className="bubble-content">
-        <h3 onClick={() => setOpen(o => !o)}>{title}</h3>
+        {focused ? (
+          <h2 className="bubble-title">{title}</h2>
+        ) : (
+          <button
+            className="bubble-title bubble-title-button"
+            type="button"
+            onClick={onFocus}
+            ref={titleButtonRef}
+            aria-label={`${title} téma megnyitása`}
+          >
+            {title}
+          </button>
+        )}
 
-        {open && type === "select" && (
+        {focused && tooltip && <p className="bubble-tooltip">{tooltip}</p>}
+
+        {focused && type === "select" && (
           <>
-            <div className="dropdown">
-              {options.map(opt => (
-                <label key={opt}>
+            <div className="dropdown" aria-label={`${title} válaszlehetőségek`}>
+              {options.map((option) => (
+                <label key={option}>
                   <input
                     type="checkbox"
-                    checked={selected.includes(opt)}
-                    onChange={() => toggle(opt)}
+                    checked={selected.includes(option)}
+                    onChange={() => onToggle(option)}
                   />
-                  {opt}
+                  {option}
                 </label>
               ))}
             </div>
@@ -78,29 +61,29 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
               className="free-input"
               placeholder="Egyéb (ha nincs a listában) – írd be és Enter…"
               value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={addFreeTag}
+              onChange={(event) => onInput(event.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </>
         )}
 
-        {open && type === "free" && (
+        {focused && type === "free" && (
           <input
             className="free-input"
             placeholder="Írj be egy kifejezést és Enter…"
             value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={addFreeTag}
+            onChange={(event) => onInput(event.target.value)}
+            onKeyDown={handleKeyDown}
           />
         )}
 
         <div className="tags">
-          {selected.map(item => (
+          {selected.map((item) => (
             <button
               key={item}
               type="button"
               className="tag"
-              onClick={() => toggle(item)}
+              onClick={() => onToggle(item)}
               aria-label={`Törlés: ${item}`}
               title="Kattints a törléshez"
             >

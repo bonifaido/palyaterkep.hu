@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
 import logo from "./assets/logo.png";
@@ -64,12 +65,126 @@ export default function App({ startImmediately = false }) {
   const [started, setStarted] = useState(startImmediately);
   const [userName, setUserName] = useState("");
   const [canvasScale, setCanvasScale] = useState(getCanvasScale);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [answers, setAnswers] = useState(() =>
+    BUBBLES.map(() => ({ selected: [], input: "" }))
+  );
+  const titleButtons = useRef([]);
+  const closeButton = useRef(null);
+  const previousActiveIndex = useRef(null);
+
+  const updateAnswer = (index, update) => {
+    setAnswers((current) =>
+      current.map((answer, answerIndex) =>
+        answerIndex === index ? { ...answer, ...update(answer) } : answer
+      )
+    );
+  };
+
+  const toggleAnswer = (index, item) => {
+    updateAnswer(index, ({ selected }) => ({
+      selected: selected.includes(item)
+        ? selected.filter((value) => value !== item)
+        : [...selected, item]
+    }));
+  };
+
+  const addAnswer = (index, options) => {
+    updateAnswer(index, ({ input, selected }) => {
+      const value = input.trim();
+      if (!value) return {};
+
+      const existingOption = options.find(
+        (option) => option.trim().toLowerCase() === value.toLowerCase()
+      );
+      const newValue = existingOption ?? value;
+      const alreadySelected = selected.some(
+        (item) => item.trim().toLowerCase() === newValue.toLowerCase()
+      );
+
+      return {
+        selected: alreadySelected ? selected : [...selected, newValue],
+        input: ""
+      };
+    });
+  };
+
+  const closeCarousel = () => {
+    const closedIndex = activeIndex;
+    setActiveIndex(null);
+    requestAnimationFrame(() => titleButtons.current[closedIndex]?.focus());
+  };
 
   useEffect(() => {
     const handleResize = () => setCanvasScale(getCanvasScale());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (activeIndex === null) {
+      previousActiveIndex.current = null;
+      return undefined;
+    }
+
+    if (previousActiveIndex.current === null) {
+      closeButton.current?.focus();
+    }
+    previousActiveIndex.current = activeIndex;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousDocumentOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        const closedIndex = activeIndex;
+        setActiveIndex(null);
+        requestAnimationFrame(() => titleButtons.current[closedIndex]?.focus());
+        return;
+      }
+
+      const targetIsEditable = ["INPUT", "TEXTAREA", "SELECT"].includes(
+        event.target.tagName
+      );
+
+      if (event.key === "Tab") {
+        const focusableItems = document.querySelectorAll(
+          ".carousel-panel button:not(:disabled), .carousel-panel input:not(:disabled)"
+        );
+        const firstItem = focusableItems[0];
+        const lastItem = focusableItems[focusableItems.length - 1];
+
+        if (event.shiftKey && document.activeElement === firstItem) {
+          event.preventDefault();
+          lastItem?.focus();
+        } else if (!event.shiftKey && document.activeElement === lastItem) {
+          event.preventDefault();
+          firstItem?.focus();
+        }
+        return;
+      }
+
+      if (targetIsEditable) return;
+
+      if (event.key === "ArrowRight") {
+        setActiveIndex((current) => (current + 1) % BUBBLES.length);
+      }
+      if (event.key === "ArrowLeft") {
+        setActiveIndex((current) =>
+          (current - 1 + BUBBLES.length) % BUBBLES.length
+        );
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousDocumentOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeIndex]);
 
   if (!started) {
     return <Intro onStart={() => setStarted(true)} />;
@@ -78,6 +193,8 @@ export default function App({ startImmediately = false }) {
   return (
     <div
       className="canvas-print"
+      aria-hidden={activeIndex !== null}
+      inert={activeIndex !== null}
       style={{
         width: CANVAS_WIDTH * canvasScale,
         height: CANVAS_HEIGHT * canvasScale
@@ -130,27 +247,116 @@ export default function App({ startImmediately = false }) {
           </div>
         </div>
 
-        {/* BUBORÉKOK */}
-        {BUBBLES.map((b, index) => {
-          const angle = BUBBLE_ANGLES[index];
-          const x = CENTER_X + ORBIT_RADIUS_X * Math.cos(angle);
-          const y = CENTER_Y + ORBIT_RADIUS_Y * Math.sin(angle);
+        <div
+          className={`map-layer${activeIndex !== null ? " map-layer--inactive" : ""}`}
+          aria-hidden={activeIndex !== null}
+          inert={activeIndex !== null}
+        >
+          {BUBBLES.map((bubble, index) => {
+            const angle = BUBBLE_ANGLES[index];
+            const x = CENTER_X + ORBIT_RADIUS_X * Math.cos(angle);
+            const y = CENTER_Y + ORBIT_RADIUS_Y * Math.sin(angle);
+            const answer = answers[index];
 
-          return (
-            <Bubble
-              key={b.title}
-              title={b.title}
-              type={b.type}
-              options={b.options}
-              tooltip={b.tooltip}
-              style={{
-                left: x,
-                top: y,
-                transform: "translate(-50%, -50%)"
-              }}
-            />
-          );
-        })}
+            return (
+              <Bubble
+                key={bubble.title}
+                title={bubble.title}
+                type={bubble.type}
+                options={bubble.options}
+                tooltip={bubble.tooltip}
+                selected={answer.selected}
+                input={answer.input}
+                onInput={(value) => updateAnswer(index, () => ({ input: value }))}
+                onToggle={(item) => toggleAnswer(index, item)}
+                onAdd={() => addAnswer(index, bubble.options ?? [])}
+                onFocus={() => setActiveIndex(index)}
+                titleButtonRef={(element) => {
+                  titleButtons.current[index] = element;
+                }}
+                style={{
+                  left: x,
+                  top: y,
+                  transform: "translate(-50%, -50%)"
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {activeIndex !== null && createPortal(
+          <div
+            className="carousel-backdrop"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) closeCarousel();
+            }}
+          >
+            <section
+              className="carousel-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${BUBBLES[activeIndex].title} téma`}
+            >
+              <header className="carousel-header">
+                <p className="carousel-count">
+                  {activeIndex + 1} / {BUBBLES.length}
+                </p>
+                <button
+                  className="carousel-close"
+                  type="button"
+                  onClick={closeCarousel}
+                  ref={closeButton}
+                  aria-label="Vissza a térképhez"
+                  title="Vissza a térképhez (Escape)"
+                >
+                  ×
+                </button>
+              </header>
+
+              <div className="carousel-stage" key={activeIndex}>
+                <Bubble
+                  title={BUBBLES[activeIndex].title}
+                  type={BUBBLES[activeIndex].type}
+                  options={BUBBLES[activeIndex].options}
+                  tooltip={BUBBLES[activeIndex].tooltip}
+                  selected={answers[activeIndex].selected}
+                  input={answers[activeIndex].input}
+                  onInput={(value) =>
+                    updateAnswer(activeIndex, () => ({ input: value }))
+                  }
+                  onToggle={(item) => toggleAnswer(activeIndex, item)}
+                  onAdd={() =>
+                    addAnswer(activeIndex, BUBBLES[activeIndex].options ?? [])
+                  }
+                  focused
+                />
+              </div>
+
+              <footer className="carousel-controls">
+                <button
+                  className="carousel-nav"
+                  type="button"
+                  onClick={() =>
+                    setActiveIndex((activeIndex - 1 + BUBBLES.length) % BUBBLES.length)
+                  }
+                  aria-label={`Előző téma: ${BUBBLES[(activeIndex - 1 + BUBBLES.length) % BUBBLES.length].title}`}
+                >
+                  <span aria-hidden="true">←</span> Előző
+                </button>
+                <p className="carousel-topic">{BUBBLES[activeIndex].title}</p>
+                <button
+                  className="carousel-nav"
+                  type="button"
+                  onClick={() => setActiveIndex((activeIndex + 1) % BUBBLES.length)}
+                  aria-label={`Következő téma: ${BUBBLES[(activeIndex + 1) % BUBBLES.length].title}`}
+                >
+                  Következő <span aria-hidden="true">→</span>
+                </button>
+              </footer>
+            </section>
+          </div>,
+          document.body
+        )}
 
         <div className="copyright" aria-label="Szerzői jogi nyilatkozat">
           © Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn.
