@@ -9,6 +9,8 @@ Add these repository secrets in GitHub before the first preview deployment:
 - `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts.
 - `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID that owns the Worker.
 
+In Cloudflare, enable Preview under **Workers & Pages > palyaterkep-hu > Domains > Worker URL** once. The Wrangler config requests preview URLs, and the workflow reports a setup error if Cloudflare has not enabled them for the Worker yet.
+
 Previews use Cloudflare's `workers.dev` URL and are public to anyone with the link. Cloudflare marks Worker Preview URLs `noindex`. Pull requests from forks are intentionally skipped because GitHub does not expose repository secrets to fork workflows.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -41,9 +41,14 @@ jobs:
         id: deploy-preview
         run: |
           set -o pipefail
-          output="$(npx --yes wrangler@4.149.0 preview --name "pr-${PR_NUMBER}" --json)"
+          output="$(npx --yes wrangler@4.149.0 preview --name "pr-${PR_NUMBER}" --json 2>&1)"
           printf '%s\n' "$output"
-          preview_url="$(printf '%s\n' "$output" | jq -er '.preview.urls[0]')"
+          preview_json="$(printf '%s\n' "$output" | sed -n '/^{/,$p')"
+          preview_url="$(printf '%s\n' "$preview_json" | jq -r '.preview.urls[0] // empty')"
+          if [[ -z "$preview_url" ]]; then
+            echo "::error::Cloudflare created the Preview but returned no URL. Enable Worker Preview URLs in Workers & Pages > palyaterkep-hu > Domains > Worker URL, then rerun this workflow."
+            exit 1
+          fi
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
