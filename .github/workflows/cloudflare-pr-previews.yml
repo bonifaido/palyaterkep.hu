@@ -1,0 +1,110 @@
+name: Cloudflare PR previews
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: cloudflare-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.deploy-preview.outputs.preview_url }}
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Create or update Cloudflare Preview
+        id: deploy-preview
+        run: |
+          set -o pipefail
+          output="$(npx --yes wrangler@4.149.0 preview --name "pr-${PR_NUMBER}" --json)"
+          printf '%s\n' "$output"
+          preview_url="$(printf '%s\n' "$output" | jq -er '.preview.urls[0]')"
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+
+      - name: Comment Preview URL
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.preview_url }}
+        with:
+          script: |
+            const marker = '<!-- cloudflare-worker-preview -->'
+            const body = `${marker}\n### Cloudflare preview\n\n${process.env.PREVIEW_URL}\n\nThis preview updates with new commits and is removed when the pull request closes.`
+            const { owner, repo } = context.repo
+            const issue_number = context.issue.number
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number })
+            const existing = comments.find((comment) => comment.user.type === 'Bot' && comment.body?.includes(marker))
+
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body })
+            }
+
+  cleanup:
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Delete Cloudflare Preview
+        run: npx --yes wrangler@4.149.0 preview delete --name "pr-${PR_NUMBER}" --skip-confirmation
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+
+      - name: Mark Preview comment as removed
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- cloudflare-worker-preview -->'
+            const body = `${marker}\n### Cloudflare preview\n\nPreview removed because this pull request was closed.`
+            const { owner, repo } = context.repo
+            const issue_number = context.issue.number
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number })
+            const existing = comments.find((comment) => comment.user.type === 'Bot' && comment.body?.includes(marker))
+
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
+            }
