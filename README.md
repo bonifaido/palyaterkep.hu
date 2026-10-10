@@ -1,5 +1,18 @@
 # React + Vite
 
+## Pull request previews
+
+Pull requests targeting `main` build a Cloudflare Worker Preview. The workflow updates a single Preview URL comment on the pull request and deletes the Preview when the pull request is closed. Production remains on GitHub Pages and is deployed only from `main`.
+
+Add these repository secrets in GitHub before the first preview deployment:
+
+- `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts.
+- `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID that owns the Worker.
+
+The first PR workflow creates a route-disabled Worker to host Cloudflare Previews and enables `workers.dev` Preview URLs. It does not attach a production route or replace GitHub Pages. Ensure the Cloudflare account has a `workers.dev` subdomain enabled; the workflow reports an actionable error if Cloudflare cannot return a Preview URL.
+
+Previews use Cloudflare's `workers.dev` URL and are public to anyone with the link. Cloudflare marks Worker Preview URLs `noindex`. Pull requests from forks are intentionally skipped because GitHub does not expose repository secrets to fork workflows.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
