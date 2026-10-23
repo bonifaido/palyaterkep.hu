@@ -1,8 +1,13 @@
-export default function Intro({ onStart }) {
+import LanguageSwitch from "./LanguageSwitch";
+
+export default function Intro({ onStart, language, onLanguageChange }) {
   return (
     <div className="intro">
       <div className="intro-card" role="region" aria-label="PályaTérkép bevezető">
-        <h1 className="intro-title">PályaTérkép</h1>
+        <div className="intro-heading">
+          <h1 className="intro-title">PályaTérkép</h1>
+          <LanguageSwitch language={language} onLanguageChange={onLanguageChange} />
+        </div>
         <p className="intro-subtitle"><h2>Vizuális önismereti térkép az életpálya tervezéséhez</h2></p>
 
         <p>
