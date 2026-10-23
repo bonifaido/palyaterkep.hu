@@ -3,6 +3,7 @@ import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
 import { BUBBLES_EN } from "./data.en";
 import logo from "./assets/logo.png";
+import englishComingSoon from "/english-coming-soon.png";
 import Intro from "./Intro";
 import "./style.css";
 
@@ -76,6 +77,21 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  if (language === "en") {
+    return (
+      <main className="coming-soon-screen">
+        <img
+          className="coming-soon-image"
+          src={englishComingSoon}
+          alt="Career Map. The English version is coming soon. Please check this page again during November."
+        />
+        <div className="coming-soon-language">
+          <LanguageSwitch language={language} onLanguageChange={setLanguage} />
+        </div>
+      </main>
+    );
+  }
 
   if (!started) {
     return <Intro onStart={() => setStarted(true)} language={language} onLanguageChange={setLanguage} />;
