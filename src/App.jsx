@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
+import { BUBBLES_EN } from "./data.en";
 import logo from "./assets/logo.png";
 import Intro from "./Intro";
 import "./style.css";
@@ -62,6 +63,7 @@ const BUBBLE_ANGLES = getEllipseAngles(
 
 export default function App() {
   const [started, setStarted] = useState(false);
+  const [language, setLanguage] = useState("hu");
   const [userName, setUserName] = useState("");
   const [canvasScale, setCanvasScale] = useState(getCanvasScale);
 
@@ -71,9 +73,46 @@ export default function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   if (!started) {
-    return <Intro onStart={() => setStarted(true)} />;
+    return <Intro onStart={() => setStarted(true)} language={language} onLanguageChange={setLanguage} />;
   }
+
+  const copy = language === "en"
+    ? {
+        print: "Print / PDF",
+        printTitle: "Choose landscape orientation in the print settings",
+        name: "Name...",
+        nameLabel: "Name",
+        copyrightLabel: "Copyright notice",
+        copyright: "© Palyaterkep.hu – All rights reserved. Adrienn Krácser‑Varga.",
+        otherPlaceholder: "Other (if not listed) – type and press Enter...",
+        freePlaceholder: "Type a phrase and press Enter...",
+        remove: "Remove",
+        removeTitle: "Click to remove"
+      }
+    : {
+        print: "Nyomtatás / PDF",
+        printTitle: "Nyomtatáskor válaszd a fekvő tájolást!",
+        name: "Név…",
+        nameLabel: "Név",
+        copyrightLabel: "Szerzői jogi nyilatkozat",
+        copyright: "© Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn.",
+        otherPlaceholder: "Egyéb (ha nincs a listában) – írd be és Enter…",
+        freePlaceholder: "Írj be egy kifejezést és Enter…",
+        remove: "Törlés",
+        removeTitle: "Kattints a törléshez"
+      };
+
+  const labels = {
+    otherPlaceholder: copy.otherPlaceholder,
+    freePlaceholder: copy.freePlaceholder,
+    remove: copy.remove,
+    removeTitle: copy.removeTitle
+  };
 
   return (
     <div
@@ -93,14 +132,15 @@ export default function App() {
         }}
       >
         <div className="print-box">
+          <LanguageSwitch language={language} onLanguageChange={setLanguage} />
           <button
             className="print-button"
             type="button"
             onClick={() => window.print()}
-            aria-label="Nyomtatás / Mentés PDF-be"
-            title="Nyomtatáskor válaszd a fekvő tájolást!"
+            aria-label={copy.print}
+            title={copy.printTitle}
           >
-            Nyomtatás / PDF
+            {copy.print}
           </button>
         </div>
 
@@ -110,8 +150,8 @@ export default function App() {
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            placeholder="Név…"
-            aria-label="Név"
+            placeholder={copy.name}
+            aria-label={copy.nameLabel}
           />
         </div>
 
@@ -139,10 +179,13 @@ export default function App() {
           return (
             <Bubble
               key={b.title}
-              title={b.title}
+              title={language === "en" ? BUBBLES_EN[index].title : b.title}
               type={b.type}
               options={b.options}
-              tooltip={b.tooltip}
+              translatedOptions={BUBBLES_EN[index].options}
+              language={language}
+              tooltip={language === "en" ? BUBBLES_EN[index].tooltip : b.tooltip}
+              labels={labels}
               style={{
                 left: x,
                 top: y,
@@ -152,10 +195,28 @@ export default function App() {
           );
         })}
 
-        <div className="copyright" aria-label="Szerzői jogi nyilatkozat">
-          © Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn.
+        <div className="copyright" aria-label={copy.copyrightLabel}>
+          {copy.copyright}
         </div>
       </div>
+    </div>
+  );
+}
+
+function LanguageSwitch({ language, onLanguageChange }) {
+  return (
+    <div className="language-switch" role="group" aria-label={language === "en" ? "Language" : "Nyelv"}>
+      {["hu", "en"].map((option) => (
+        <button
+          key={option}
+          type="button"
+          className={language === option ? "language-option language-option--active" : "language-option"}
+          aria-pressed={language === option}
+          onClick={() => onLanguageChange(option)}
+        >
+          {option.toUpperCase()}
+        </button>
+      ))}
     </div>
   );
 }

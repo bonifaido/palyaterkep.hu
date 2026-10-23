@@ -46,6 +46,49 @@ body {
   top: 22px;
   right: 22px;
   z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.intro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.language-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 3px;
+  border: 1px solid rgba(31, 41, 51, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.language-option {
+  min-width: 40px;
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #1f2933;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.language-option--active {
+  background: #3f7fb0;
+  color: #fff;
+}
+
+.language-option:focus-visible {
+  outline: 2px solid #1f2933;
+  outline-offset: 2px;
 }
 
 .print-button {
@@ -505,6 +548,10 @@ body {
     position: static;
     order: 0;
     align-self: flex-end;
+  }
+
+  .intro-header {
+    align-items: flex-start;
   }
 
   .print-button {

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function Bubble({ title, type, options = [], style, tooltip }) {
+export default function Bubble({ title, type, options = [], translatedOptions = [], language, style, tooltip, labels }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
   const [input, setInput] = useState("");
@@ -29,11 +29,13 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
     const value = input.trim();
     if (!value) return;
 
-    const existingOption = options.find(
-      (opt) => opt.trim().toLowerCase() === value.toLowerCase()
+    const optionIndex = options.findIndex((option, index) =>
+      option.trim().toLowerCase() === value.toLowerCase() ||
+      (language === "en" && translatedOptions[index]?.trim().toLowerCase() === value.toLowerCase())
     );
 
-    if (existingOption) {
+    if (optionIndex !== -1) {
+      const existingOption = options[optionIndex];
       setSelected((prev) =>
         prev.includes(existingOption) ? prev : [...prev, existingOption]
       );
@@ -62,21 +64,21 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
         {open && type === "select" && (
           <>
             <div className="dropdown">
-              {options.map(opt => (
+              {options.map((opt, index) => (
                 <label key={opt}>
                   <input
                     type="checkbox"
                     checked={selected.includes(opt)}
                     onChange={() => toggle(opt)}
                   />
-                  {opt}
+                  {language === "en" ? translatedOptions[index] : opt}
                 </label>
               ))}
             </div>
 
             <input
               className="free-input"
-              placeholder="Egyéb (ha nincs a listában) – írd be és Enter…"
+              placeholder={labels.otherPlaceholder}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={addFreeTag}
@@ -87,7 +89,7 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
         {open && type === "free" && (
           <input
             className="free-input"
-            placeholder="Írj be egy kifejezést és Enter…"
+            placeholder={labels.freePlaceholder}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={addFreeTag}
@@ -101,10 +103,14 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
               type="button"
               className="tag"
               onClick={() => toggle(item)}
-              aria-label={`Törlés: ${item}`}
-              title="Kattints a törléshez"
+              aria-label={`${labels.remove}: ${language === "en" && options.includes(item)
+                ? translatedOptions[options.indexOf(item)]
+                : item}`}
+              title={labels.removeTitle}
             >
-              {item}
+              {language === "en" && options.includes(item)
+                ? translatedOptions[options.indexOf(item)]
+                : item}
             </button>
           ))}
         </div>
