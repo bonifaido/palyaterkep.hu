@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import Bubble from "./Bubble";
 import { BUBBLES } from "./data";
 import logo from "./assets/logo.png";
-import englishComingSoon from "/english-coming-soon.png";
 import Intro from "./Intro";
-import LanguageSwitch from "./LanguageSwitch";
 import "./style.css";
 
 const CANVAS_WIDTH = 1990;
@@ -64,7 +62,6 @@ const BUBBLE_ANGLES = getEllipseAngles(
 
 export default function App() {
   const [started, setStarted] = useState(false);
-  const [language, setLanguage] = useState("hu");
   const [userName, setUserName] = useState("");
   const [canvasScale, setCanvasScale] = useState(getCanvasScale);
 
@@ -74,27 +71,8 @@ export default function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
-
-  if (language === "en") {
-    return (
-      <main className="coming-soon-screen">
-        <img
-          className="coming-soon-image"
-          src={englishComingSoon}
-          alt="Career Map. The English version is coming soon. Please check this page again during November."
-        />
-        <div className="coming-soon-language">
-          <LanguageSwitch language={language} onLanguageChange={setLanguage} />
-        </div>
-      </main>
-    );
-  }
-
   if (!started) {
-    return <Intro onStart={() => setStarted(true)} language={language} onLanguageChange={setLanguage} />;
+    return <Intro onStart={() => setStarted(true)} />;
   }
 
   return (
