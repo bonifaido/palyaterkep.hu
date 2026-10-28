@@ -68,6 +68,21 @@ export default function Intro({ onStart }) {
           </button>
         </div>
 
+        <section className="intro-announcements" aria-label="Hírek">
+          <p>
+            A PályaTérkép a 2026-os Euroguidance Pályatanácsadói Díjon III.
+            helyezést ért el a Fiatalokért kategóriában.
+          </p>
+          <p>
+            A PályaTérkép angol nyelvű változata, Career Map – A Visual
+            Self-Knowledge Tool for Career Guidance, hamarosan elérhető lesz a{" "}
+            <a href="https://careermap.hu/">careermap.hu</a> oldalon. / The English
+            version of PályaTérkép, Career Map – A Visual Self-Knowledge Tool for
+            Career Guidance, will soon be available at{" "}
+            <a href="https://careermap.hu/">careermap.hu</a>.
+          </p>
+        </section>
+
         <p className="intro-privacy">
           <strong>Adatkezelés:</strong> A PályaTérképen megadott adatokat és válaszokat a rendszer nem menti és nem tárolja. Az oldal nem helyez el sütiket (cookie-kat) az eszközödön. A látogatottság méréséhez a Cloudflare süti nélküli, alapszintű látogatói statisztikáját (Cloudflare Web Analytics) használjuk, amely összesített forgalmi adatokat szolgáltat, és nem azonosít egyedi felhasználókat.
         </p>
