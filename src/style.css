@@ -403,6 +403,23 @@ body {
   justify-content: center;
 }
 
+.intro-announcements {
+  margin-top: 24px;
+  padding: 8px 16px;
+  border: 1px solid rgba(31, 41, 51, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.intro-announcements p + p {
+  padding-top: 12px;
+  border-top: 1px solid rgba(31, 41, 51, 0.16);
+}
+
+.intro-announcements a {
+  color: #245b86;
+}
+
 .intro-button {
   border: none;
   background: #3f7fb0;
