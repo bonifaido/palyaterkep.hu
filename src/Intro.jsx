@@ -75,10 +75,10 @@ export default function Intro({ onStart }) {
           </p>
           <p>
             A PályaTérkép angol nyelvű változata, Career Map – A Visual
-            Self-Knowledge Tool for Career Guidance, hamarosan elérhető lesz a{" "}
+            Self-Knowledge Tool for Career Guidance, elérhető a{" "}
             <a href="https://careermap.hu/">careermap.hu</a> oldalon. / The English
             version of PályaTérkép, Career Map – A Visual Self-Knowledge Tool for
-            Career Guidance, will soon be available at{" "}
+            Career Guidance, is available at{" "}
             <a href="https://careermap.hu/">careermap.hu</a>.
           </p>
         </section>

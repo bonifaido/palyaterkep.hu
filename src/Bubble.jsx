@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function Bubble({ title, type, options = [], style, tooltip }) {
+export default function Bubble({ title, type, options = [], style, tooltip, isEnglish }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
   const [input, setInput] = useState("");
@@ -76,7 +76,7 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
 
             <input
               className="free-input"
-              placeholder="Egyéb (ha nincs a listában) – írd be és Enter…"
+              placeholder={isEnglish ? "Other (not listed) – type and press Enter…" : "Egyéb (ha nincs a listában) – írd be és Enter…"}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={addFreeTag}
@@ -87,7 +87,7 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
         {open && type === "free" && (
           <input
             className="free-input"
-            placeholder="Írj be egy kifejezést és Enter…"
+            placeholder={isEnglish ? "Type an item and press Enter…" : "Írj be egy kifejezést és Enter…"}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={addFreeTag}
@@ -101,8 +101,8 @@ export default function Bubble({ title, type, options = [], style, tooltip }) {
               type="button"
               className="tag"
               onClick={() => toggle(item)}
-              aria-label={`Törlés: ${item}`}
-              title="Kattints a törléshez"
+              aria-label={`${isEnglish ? "Remove" : "Törlés"}: ${item}`}
+              title={isEnglish ? "Click to remove" : "Kattints a törléshez"}
             >
               {item}
             </button>

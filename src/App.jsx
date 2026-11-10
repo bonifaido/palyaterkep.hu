@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import Bubble from "./Bubble";
-import { BUBBLES } from "./data";
+import { BUBBLES as HUNGARIAN_BUBBLES } from "./data";
+import { BUBBLES as ENGLISH_BUBBLES } from "./data.en";
 import logo from "./assets/logo.png";
 import Intro from "./Intro";
+import IntroEn from "./IntroEn";
 import "./style.css";
 
+const isEnglish = import.meta.env.VITE_SITE_LOCALE === "en";
+const BUBBLES = isEnglish ? ENGLISH_BUBBLES : HUNGARIAN_BUBBLES;
 const CANVAS_WIDTH = 1990;
 const CANVAS_HEIGHT = 1220;
 const BUBBLE_DIAMETER = 440;
@@ -72,7 +76,8 @@ export default function App() {
   }, []);
 
   if (!started) {
-    return <Intro onStart={() => setStarted(true)} />;
+    const Introduction = isEnglish ? IntroEn : Intro;
+    return <Introduction onStart={() => setStarted(true)} />;
   }
 
   return (
@@ -84,7 +89,7 @@ export default function App() {
       }}
     >
       <div
-        className="canvas"
+        className={`canvas${isEnglish ? " canvas--english" : ""}`}
         style={{
           width: CANVAS_WIDTH,
           height: CANVAS_HEIGHT,
@@ -97,10 +102,10 @@ export default function App() {
             className="print-button"
             type="button"
             onClick={() => window.print()}
-            aria-label="Nyomtatás / Mentés PDF-be"
-            title="Nyomtatáskor válaszd a fekvő tájolást!"
+            aria-label={isEnglish ? "Print / Save as PDF" : "Nyomtatás / Mentés PDF-be"}
+            title={isEnglish ? "Choose landscape orientation when printing!" : "Nyomtatáskor válaszd a fekvő tájolást!"}
           >
-            Nyomtatás / PDF
+            {isEnglish ? "Print / PDF" : "Nyomtatás / PDF"}
           </button>
         </div>
 
@@ -110,8 +115,8 @@ export default function App() {
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            placeholder="Név…"
-            aria-label="Név"
+            placeholder={isEnglish ? "Name…" : "Név…"}
+            aria-label={isEnglish ? "Name" : "Név"}
           />
         </div>
 
@@ -125,8 +130,13 @@ export default function App() {
             transform: "translate(-50%, -50%)"
           }}
         >
-          <div className="logo">
-            <img src={logo} alt="PályaTérkép logo" />
+          <div className={`logo${isEnglish ? " logo--english" : ""}`}>
+            {isEnglish ? (
+              <>
+                <div className="logo-symbol"><img src={logo} alt="" /></div>
+                <span>Career Map</span>
+              </>
+            ) : <img src={logo} alt="PályaTérkép logo" />}
           </div>
         </div>
 
@@ -143,6 +153,7 @@ export default function App() {
               type={b.type}
               options={b.options}
               tooltip={b.tooltip}
+              isEnglish={isEnglish}
               style={{
                 left: x,
                 top: y,
@@ -152,8 +163,10 @@ export default function App() {
           );
         })}
 
-        <div className="copyright" aria-label="Szerzői jogi nyilatkozat">
-          © Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn.
+        <div className="copyright" aria-label={isEnglish ? "Copyright notice" : "Szerzői jogi nyilatkozat"}>
+          {isEnglish
+            ? "© Careermap.hu – All rights reserved. Krácser‑Varga Adrienn."
+            : "© Palyaterkep.hu – Minden jog fenntartva. Krácser‑Varga Adrienn."}
         </div>
       </div>
     </div>
