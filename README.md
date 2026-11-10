@@ -1,4 +1,30 @@
-# React + Vite
+# PályaTérkép / Career Map
+
+This repository is the shared source for the Hungarian site at
+`palyaterkep.hu` and the English site at `careermap.hu`. The default build
+is Hungarian; set `VITE_SITE_LOCALE=en` for the English version:
+
+```sh
+npm ci
+npm run dev
+VITE_SITE_LOCALE=en npm run dev
+VITE_SITE_LOCALE=en npm run build
+```
+
+Translate changes to user-facing text and the corresponding bubble options in
+both `src/data.js` and `src/data.en.js`. The English introduction is in
+`src/IntroEn.jsx`; the Hungarian introduction is in `src/Intro.jsx`. The
+English build does not use the Hungarian site's Cloudflare Analytics beacon.
+Run `npm test` to check that the two maps have matching bubble and option counts.
+
+The Hungarian site's GitHub Pages workflow builds on pushes to `main`.
+The separate `careermap.hu` repository contains a Pages workflow that checks
+out this repository's `main` branch and builds the English version daily, on
+pushes to its own `main`, or when manually dispatched. Changes in this
+repository therefore do not deploy to the English site immediately; run the
+English workflow manually when needed. Both repositories must be configured
+to use GitHub Actions as their Pages source, with their respective custom
+domains configured in GitHub Pages and DNS.
 
 ## Pull request previews
 
